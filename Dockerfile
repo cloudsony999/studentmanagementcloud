@@ -1,3 +1,14 @@
-FROM openjdk:8-jdk-alpine
-COPY target/studentmanagement-0.0.1-SNAPSHOT.jar myserver-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","/myserver-0.0.1-SNAPSHOT.jar"]
+# Fetching latest version of Java
+FROM openjdk:18
+ 
+# Setting up work directory
+WORKDIR /app
+
+# Copy the jar file into our app
+COPY ./target/studentmanagement-0.0.1-SNAPSHOT.jar /app
+
+# Exposing port 8080
+EXPOSE 8888
+
+# Starting the application
+CMD ["java", "-jar", "studentmanagement-0.0.1-SNAPSHOT.jar"]
