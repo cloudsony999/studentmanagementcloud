@@ -3,6 +3,10 @@ package com.example.serviceimpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Student;
@@ -74,4 +78,23 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findByName(name);
 	}
 
+	@Override
+	public Page<Student> getStudentPagination(Integer pageNumber, Integer pageSize, String sort) {
+		Pageable pageable = null;
+		if (sort != null) {
+			// with sorting
+			pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.DESC, sort);
+		} else {
+			// without sorting
+			pageable = PageRequest.of(pageNumber, pageSize);
+
+		}
+		return studentRepository.findAll(pageable);
+	}
+
+	@Override
+	public List<Student> getByNameAndEmail(String name, String email) {
+		return studentRepository.findByNameAndEmail(name, email);
+
+	}
 }

@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.example.entity.Student;
@@ -21,4 +22,8 @@ public interface StudentService {
 
 	Student getByName(String name);
 
+	// it offers page of students in a sorted manner
+	Page<Student> getStudentPagination(Integer pageNumber, Integer pageSize, String sort);
+
+	List<Student> getByNameAndEmail(String name, String email);
 }

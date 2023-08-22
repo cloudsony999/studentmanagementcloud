@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +61,25 @@ public class StudentController {
 	@GetMapping("/studentName")
 	public ResponseEntity<Student> fetchAStudentByName(@RequestParam String name) {
 		return ResponseEntity.ok().body(studentService.getByName(name));
+	}
+
+	@GetMapping("/studentb/{pageNumber}/{pageSize}")
+	public List<Student> getStudentsByPageNoSorting(@PathVariable Integer pageNumber, @PathVariable Integer pageSize) {
+		Page<Student> data = studentService.getStudentPagination(pageNumber, pageSize, null);
+		return data.getContent();
+	}
+
+	@GetMapping("/studentb/{pageNumber}/{pageSize}/{sort}")
+	public List<Student> getStudentsByPageWithSorting(@PathVariable Integer pageNumber, @PathVariable Integer pageSize,
+			@PathVariable String sort) {
+		Page<Student> data = studentService.getStudentPagination(pageNumber, pageSize, sort);
+		return data.getContent();
+	}
+
+	@GetMapping("/studentnameandemail")
+	public ResponseEntity<List<Student>> fetchAllStudentsByNameAndEmail(@RequestParam String name,
+			@RequestParam String email) {
+		return ResponseEntity.ok().body(studentService.getByNameAndEmail(name, email));
 	}
 
 }
